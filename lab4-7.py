@@ -1,17 +1,19 @@
 from datetime import datetime
 
 class TravelPackage:
-    def __init__(self, start_date, end_date, destination, price):
+    def __init__(self, start_date, end_date, destination, price,key):
         self.start_date = start_date
         self.end_date = end_date
         self.destination = destination
         self.price = price
+        self.key = key
 
     def display_details(self):
         print(f"Start Date: {self.start_date}")
         print(f"End Date: {self.end_date}")
         print(f"Destination: {self.destination}")
         print(f"Price: ${self.price}")
+        print(f"Key {self.key}")
 
 
 class TravelPackageManager:
@@ -33,10 +35,10 @@ class TravelPackageManager:
                 print()
 
     def add_package_manually(self):
-        start_date, end_date, destination, price = input(
-            "Enter package details (start_date, end_date, destination, price): ").strip().split(',')
-        # 2025 12 5, 2025 12 10, Londra, 100
-        package = TravelPackage(start_date, end_date, destination, float(price))
+        start_date, end_date, destination, price,key = input(
+            "Enter package details (start_date, end_date, destination, price, last 4 digits of identity code): ").strip().split(',')
+        # 2025 12 5, 2025 12 10, Londra, 100, 0038
+        package = TravelPackage(start_date, end_date, destination, float(price),int(key))
         self.add_package(package)
 
     def update_date(self, start_or_end, package_number):
@@ -100,9 +102,9 @@ class TravelPackageManager:
         try:
             with open(file_name, 'r') as file:
                 for line in file:
-                    start_date, end_date, destination, price = line.strip().split(',')
+                    start_date, end_date, destination, price, key = line.strip().split(',')
                     destination = destination[1:]
-                    package = TravelPackage(start_date, end_date, destination, float(price))
+                    package = TravelPackage(start_date, end_date, destination, float(price),int(key))
                     self.add_package(package)
         except FileNotFoundError:
             print(f"File '{file_name}' not fount.")
